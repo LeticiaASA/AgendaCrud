@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Letícia Alaide">
+    <title>Agenda</title>
+</head>
+<body>
+    <script>
+       let arrcontactUsers = []
+
+        function showMenu() {
+            return parseInt(prompt(
+                `
+            ::::::::::::::::Agenda::::::::::::
+                [1] -> Criar contato
+                [2] -> Visualizar contato
+                [3] -> Atualizar contato
+                [4] -> Deletar contato
+                `
+            ));
+        }
+
+        function addContact() {
+
+            var dataAtual = new Date();
+
+            var dataFormt = ("Contato adicionado em: "+ dataAtual.toLocaleString());
+
+
+                const nome = prompt("Informe o nome do contato: ");
+                const numero = prompt("Informe o número: ");
+                const email = prompt("Informe o email do contato: ");
+
+                if (nome == "" || numero == "" || email == "") {
+                    alert("todos os dados do contato são obrigatórios")
+
+                    return;
+                }
+
+                arrcontactUsers.push({nome, numero, email, dataFormt})
+
+
+        }
+       
+        function listContact() {
+            let listContact = "";
+
+            arrcontactUsers.forEach((dataUser) => {
+                listContact += `Nome: ${dataUser.nome}, Numero: ${dataUser.numero}, Email: ${dataUser.email}, ${dataUser.dataFormt}`
+            })
+
+            alert("Lista de contatos cadastrados " + listContact);
+        }
+
+        function updateContact() {
+
+            const findEmail = prompt("Informe o email que você deseja atualizar: ")
+            
+            //método find para validar se o email que o usuário informou está dentro do meu array de usuários
+            const contatoEncontrado = arrcontactUsers.find(user => 
+                user.email == findEmail
+            );
+            
+            //se não encontrar nada então ele cai nesa validação e parando a nossa função.
+            if(!contatoEncontrado) {
+                alert ("não encontrado");
+
+                return;
+            }
+
+            const novoNome = prompt("Insira o novo nome: ");
+            const novoNumero = prompt("Insira o novo numero: ");
+            const novoEmail = prompt("Informe o novo email: ");
+
+            if (novoNome) {
+                contatoEncontrado.nome = novoNome;
+            }
+
+            if (novoNumero) {
+                contatoEncontrado.numero = novoNumero;
+            }
+
+            if (novoEmail) {
+                contatoEncontrado.email = novoEmail;
+            }
+
+            alert ("Contato atualizado com sucesso!")
+        }
+
+      function deleteContact() {
+            const findNome = prompt("Digite o contato que deseja deletar: ");
+
+            const contatoEncontrado = arrcontactUsers.findIndex(contact =>
+            contact.nome === findNome);
+            
+            if(contatoEncontrado === -1)
+        {
+            alert("Contato não encontrado.");
+                return;
+        }
+            const isConfirmed = window.confirm("Deseja remover o contato:  " + findNome + "?");
+
+            if(isConfirmed) {
+
+                arrcontactUsers.splice(contatoEncontrado, 1);
+            alert("Contato removido com sucesso!");
+            }
+      }  
+
+        let loopBreak = true
+
+        while (loopBreak) {
+            switch (showMenu()) {
+                case 1: addContact();
+                        break;
+                case 2: listContact();
+                        break;
+                case 3: updateContact();
+                        break;
+                case 4: deleteContact();
+                        break;
+                        loopBreak = false
+                default:
+                    alert("Opção inválida");
+                        break;
+
+            }
+        }
+    </script>
+</body>
+</html>
